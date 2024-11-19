@@ -1,55 +1,46 @@
-#include <Arduino.h>
-int n=13;
-void setup() {
-  pinMode(n,OUTPUT);
-  // put your setup code here, to run once:
+#include <Arduino.h>	
+int W, X, Y, Z;
+int D, C, B, A;
+void disp_7447(int D, int C, int B, int A) {
+digitalWrite(2, A); // LSB
+digitalWrite(3, B);
+digitalWrite(4, C);
+digitalWrite(5, D); // MSB
 }
-
-void loop() {
-  digitalWrite(n,HIGH);
-  delay(500);
-  digitalWrite(n,LOW);
-  delay(500);
-  // put your main code here, to run repeatedly:
-  // void sevenseg(int a,int b,int c,int d,int e,int f,int g)                     {
-  digitalWrite(2, a);
-  digitalWrite(3, b);
-  digitalWrite(4, c);    
-  digitalWrite(5, d); 
-  digitalWrite(6, e); 
-  digitalWrite(7, f);    
-  digitalWrite(8, g);
-}
-void setup()
+void setup() 
 {
-    pinMode(2, OUTPUT);
-    pinMode(3, OUTPUT); 
-    pinMode(4, OUTPUT);
-    pinMode(5, OUTPUT); 
-    pinMode(6, OUTPUT); 
-    pinMode(7, OUTPUT);                                                        
-    pinMode(8, OUTPUT);
+pinMode(2, OUTPUT);
+pinMode(3, OUTPUT);
+pinMode(4, OUTPUT);
+pinMode(5, OUTPUT);
+pinMode(6, INPUT);
+pinMode(7, INPUT);
+pinMode(8, INPUT);
+pinMode(9, INPUT);
+pinMode(13, OUTPUT);
 }
-void loop()                                                                  {                                                                      
-sevenseg (0,0,0,0,0,0,1);
-    delay(1000);
-    sevenseg (1,0,0,1,1,1,1);
-    delay(1000);
-    sevenseg (0,0,1,0,0,1,0);
-    delay(1000);
-    sevenseg(0,0,0,0,1,1,0);
-    delay(1000);
-    sevenseg(1,0,0,1,1,0,0);
-    delay(1000);
-    sevenseg(0,1,0,0,1,0,0);
-    delay(1000);
-    sevenseg(0,1,0,0,0,0,0);
-    delay(1000);
-    sevenseg(0,0,0,1,1,1,1);
-    delay(1000);
-    sevenseg(0,0,0,0,0,0,0);
-    delay(1000);
-    sevenseg(0,0,0,1,1,0,0);
-    delay(1000);
-    }
+void loop()
+{
+// Display current state
+digitalWrite(13, HIGH);
+delay(100);
+disp_7447(D, C, B, A);
+// Read input switches
+W = digitalRead(6);
+X = digitalRead(7);
+Y = digitalRead(8);
+Z = digitalRead(9);
+// Calculate next state
+A = !W;
+B = (!W&&!X&&Y)||(W&&X)||(!W&&Z);
+C = (!W&&Z)||(X&&Y)||(W&&Y);
+D = (!W&&!X&&!Y&&!Z)||(W&&Z);
+// Update current state with next state
+W = A;
+X = B;
+Y = C;
+Z = D;
+// Turn off display and delay
+digitalWrite(13, LOW);
+delay(500);
 }
