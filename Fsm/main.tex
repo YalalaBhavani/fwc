@@ -1,0 +1,46 @@
+We explain  a state machine by deconstructing the decade counter
+
+The block diagram of a decade counter (repeatedly counts up from 0 to 9)
+is available in \figref{fig:decade_counter}.  The {\em incrementing } decoder
+and {\em display} decoder are part of {\em combinational} logic, while
+the {\em delay} is part of {\em sequential} logic.
+%
+%
+\begin{enumerate}[label=\arabic*.,ref=\theenumi]
+%
+\item \figref{fig:fsm_counter} shows a {\em finite state machine} (FSM) diagram for the decade counter in Fig \ref{fig:decade_counter}  $s_0$ is the state when the input to the incrementing decoder is 0.  The {\em state transition table} for the FSM is Table \ref{tab:ide/7447/counter_decoder},
+%	0 in \cite{gvv_kmap}
+		where the present state is denoted by the variables $W,X,Y,Z$ and the next state by $A,B,C,D$.  
+\begin{figure}[H]
+%\begin{figure}[!ht]
+\centering
+\resizebox {\columnwidth} {!} {
+\input{ide/fsm/figs/fsm_counter}
+}
+\caption{FSM for the decade counter}
+\label{fig:fsm_counter}
+\end{figure}
+\item The FSM implementation is available in Fig \ref{fig:dff}  The {\em flip-flops} hold the input for the time that is given by the {\em clock}  This is nothing but the implementation of the {\em Delay} block in Fig \ref{fig:decade_counter}
+%
+\begin{figure}[H]
+\resizebox {\columnwidth} {!} {
+\input{ide/fsm/figs/dff}
+}
+\caption{Decade counter FSM implementation using D-Flip Flops}
+\label{fig:dff}
+\end{figure}
+%
+\item The hardware cost of the system is given by
+\begin{equation}
+\text{No of D Flip-Flops} = \myceil{\log_{2}\brak{\text{No of States}}}
+\end{equation}
+For the FSM in Fig \ref{fig:fsm_counter}, the number of states is 9, hence the number of flip flops required = 4  
+\item Draw the state transition diagram for 
+a decade down counter (counts from 9 to 0 repeatedly) using an FSM.  
+\item Write the state transition table for the down counter.
+\item Obtain the state transition equations with and without don't cares.
+\item Verify your design using an arduino.
+%\item Repeat the above exercises by designing a circuit that can detect 3 consecutive s in a bitstream 
+\end{enumerate}
+
+
